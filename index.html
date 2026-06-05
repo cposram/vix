@@ -1,25 +1,36 @@
 <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIX 鐵鷹雷達</title>
+    <title>VIX 鐵鷹雷達 V8</title>
     <style>
-        body{background:#0d1117; color:#c9d1d9; font-family:-apple-system, sans-serif; text-align:center; padding:20px; margin:0;}
-        .card{background:#161b22; padding:20px; border-radius:10px; max-width:600px; margin:auto; border:1px solid #30363d; box-shadow: 0 4px 8px rgba(0,0,0,0.5);}
-        h3{color:#58a6ff; margin-top:0;}
-        .danger{color:#ff7b72; font-weight:bold;}
-        .safe{color:#7ee787; font-weight:bold;}
-        .hl{color:#e3b341; font-weight:bold; font-size:1.2em;}
-        table{width:100%; margin-top:20px; border-collapse:collapse;}
-        th{background:#21262d; padding:10px; font-size:13px; color:#8b949e; border-bottom:2px solid #30363d;}
-        td{padding:12px 10px; border-bottom:1px solid #30363d; font-size:14px;}
-        .time{font-size:12px; color:#8b949e; margin-bottom:20px;}
+        body{background:#0d1117; color:#c9d1d9; font-family:-apple-system, sans-serif; text-align:center; padding:15px; margin:0;}
+        .card{background:#161b22; padding:20px; border-radius:12px; max-width:800px; margin:auto; border:1px solid #30363d; box-shadow:0 8px 16px rgba(0,0,0,0.5);}
+        .banner{display:flex; justify-content:space-around; background:#1c2128; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #444c56;}
+        .stat-item{flex:1;} .stat-label{font-size:11px; color:#8b949e; margin-bottom:4px;} .stat-val{font-size:18px; font-weight:bold; color:#58a6ff;}
+        .danger{color:#ff7b72;} .safe{color:#7ee787;} .hl{color:#e3b341;}
+        table{width:100%; border-collapse:collapse; margin-top:15px; background:#0d1117; border-radius:8px; overflow:hidden;}
+        th{background:#21262d; padding:12px; font-size:13px; color:#8b949e;}
+        td{padding:15px 10px; border-bottom:1px solid #30363d; font-size:14px; font-family:monospace; line-height:1.4;}
+        .trend-bar{font-size:13px; color:#daffde; margin-bottom:15px; padding:8px; background:rgba(88,166,255,0.1); border-radius:4px;}
     </style></head>
     <body><div class="card">
-        <h3>🚨 VIX 鐵鷹監控雷達 🚨</h3>
-        <div class="time">最後掃描: 2026/06/05 16:31:46</div>
-        <p>台指期現價: <span class="hl">45071</span></p>
-        <p>當前 HV20 波動率: <span class="safe">26.41%</span></p>
-        <p style="font-size:12px; color:#8b949e;">(近一年 90% 警戒線: 33.23%)</p>
+        <h2 style="margin-top:0; color:#58a6ff;">🚀 台指期戰略雷達 V8.1</h2>
+        <div class="trend-bar">跌破5日線 1 天 ｜ 站上10日線 12 天 ｜ 站上月線 12 天</div>
+        <div class="banner">
+            <div class="stat-item"><div class="stat-label">台指現價</div><div class="stat-val hl">45071</div></div>
+            <div class="stat-item"><div class="stat-label">10日線</div><div class="stat-val">44790</div></div>
+            <div class="stat-item"><div class="stat-label">月線(20MA)</div><div class="stat-val">43031</div></div>
+            <div class="stat-item"><div class="stat-label">波動率(HV)</div><div class="stat-val safe">26.41%</div></div>
+        </div>
         <table>
-            <tr><th>結算週期</th><th>上方防護 (賣Call)</th><th>下方防護 (賣Put)</th></tr>
-            <tr><td>本週三</td><td>46750C</td><td>43400P</td></tr><tr><td>下週三</td><td>47650C</td><td>42450P</td></tr>
+            <tr><th>結算週期</th><th>上方價差 (Call Spread)</th><th>下方價差 (Put Spread)</th></tr>
+            <tr>
+            <td>本週三</td>
+            <td style="color:#ff7b72;">賣 46750C<br><span style="font-size:11px; color:#8b949e;">買 46850C</span></td>
+            <td style="color:#7ee787;">賣 43400P<br><span style="font-size:11px; color:#8b949e;">買 43300P</span></td>
+        </tr><tr>
+            <td>下週三</td>
+            <td style="color:#ff7b72;">賣 47650C<br><span style="font-size:11px; color:#8b949e;">買 47750C</span></td>
+            <td style="color:#7ee787;">賣 42450P<br><span style="font-size:11px; color:#8b949e;">買 42350P</span></td>
+        </tr>
         </table>
+        <p style="font-size:11px; color:#8b949e; margin-top:20px;">最後掃描: 2026/06/05 16:55:52 | 90% 臨界值: 33.23%</p>
     </div></body></html>
