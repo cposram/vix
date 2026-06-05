@@ -38,6 +38,12 @@ def main():
     now_tw = datetime.now(tz_tw)
     print(f"[{now_tw.strftime('%Y-%m-%d %H:%M:%S')}] 啟動 VIX 鐵鷹監控雷達...")
 
+    # --- 新增：判斷是否為定時回報時間 (早上 09:30 或 晚上 21:30) ---
+    # 因為 GitHub Actions 每 30 分鐘執行一次，我們檢查小時與分鐘區間
+    is_morning_report = (now_tw.hour == 9 and now_tw.minute >= 30)
+    is_evening_report = (now_tw.hour == 21 and now_tw.minute >= 30)
+    is_report_time = is_morning_report or is_evening_report
+
     try:
         # 1. 抓取大盤資料 (近一年)
         df = yf.Ticker("^TWII").history(period="1y")
@@ -56,25 +62,33 @@ def main():
 
         print(f"當前指數: {current_price:.0f} | 當前 HV20: {current_hv:.2f}% | 90% 警戒線: {hv_90th:.2f}%")
 
-       # 3. 判斷是否觸發異常 (沒異常就直接結束，不吵人)
-        if current_hv <= hv_90th:
-            print("✅ 目前波動率正常，無訊號觸發，不發送通知。")
+        # 3. 判斷是否觸發異常
+        is_abnormal = current_hv > hv_90th
+
+        # 4. 如果「既沒有異常」也「不是定時回報時間」，就直接結束
+        if not is_abnormal and not is_report_time:
+            print("✅ 目前波動率正常，且非定時回報時間，不發送通知。")
             return
 
-        # 4. 觸發異常，開始計算鐵鷹安全邊界
-        print("🚨 觸發極端波動！準備推播組合單訊號...")
-        
+        # 5. 開始建立推播訊息
+        if is_abnormal:
+            title = "🚨 <b>【VIX 鐵鷹建倉警報】</b> 🚨"
+            status_text = "💡 <i>狀態：權利金極度肥大，風險已鎖定，可直接建倉！</i>"
+        else:
+            title = "📊 <b>【VIX 鐵鷹定時回報】</b> 📊"
+            status_text = "💡 <i>狀態：目前波動率正常，程式運行中。</i>"
+
         # 自動計算距離接下來兩個「星期三」的實際天數
         days_to_wed1 = (2 - now_tw.weekday()) % 7
         if days_to_wed1 == 0: days_to_wed1 = 7 # 如果今天是週三，直接抓下週三
         days_to_wed2 = days_to_wed1 + 7
 
         msg_lines = [
-            "🚨 <b>【VIX 鐵鷹建倉警報】</b> 🚨",
-            f"📅 時間：<code>{now_tw.strftime('%m/%d %H:%M')}</code>",
+            title,
+            f"📅 時間：<code>{now_tw.strftime('%m/%d %H:%M')}</code> (台灣)",
             f"📈 指數：<b>{current_price:.0f}</b>",
-            f"🔥 波動率：<b>{current_hv:.2f}%</b> (突破 90% 臨界值)",
-            "💡 <i>狀態：權利金極度肥大，風險已鎖定，可直接建倉！</i>",
+            f"🔥 波動率：<b>{current_hv:.2f}%</b> (90% 臨界值: {hv_90th:.2f}%)",
+            status_text,
             ""
         ]
 
