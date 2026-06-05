@@ -7,7 +7,8 @@ from datetime import datetime, timedelta, timezone
 import base64
 
 # --- GitHub API 設定 (用來更新 vix 網頁) ---
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "") # 記得在 Actions Secrets 放入 PAT
+# 這裡對應你剛剛在 Secrets 設定的新名字：MY_GITHUB_TOKEN
+GITHUB_TOKEN = os.environ.get("MY_GITHUB_TOKEN", "") 
 REPO_NAME = "cposram/vix"
 FILE_PATH = "index.html"
 
