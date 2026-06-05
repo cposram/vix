@@ -6,8 +6,9 @@ on:
     - cron: '*/30 * * * *'
   workflow_dispatch:      # 讓你可以隨時手動點擊按鈕測試
 
+# 【修改點 1】將權限改為 write，確保寫入網頁時不會被 GitHub 安全機制擋下
 permissions:
-  contents: read
+  contents: write 
 
 jobs:
   run-radar:
@@ -27,6 +28,8 @@ jobs:
           
       - name: Run VIX Radar
         env:
+          # 【修改點 2】把剛才存入保險箱的 MY_GITHUB_TOKEN 傳遞給 Python 程式
+          MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }} 
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python vix.py
